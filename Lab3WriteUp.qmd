@@ -28,6 +28,7 @@ format:
     include-in-header:
       - text: |
           \usepackage{amsmath}
+          \usepackage{tikzsymbols}
           \usepackage[dvipsnames]{xcolor}
           \usepackage[shortlabels]{enumitem}
           \usepackage{parskip}
@@ -120,21 +121,77 @@ Let's transform $\mathbf{M}$ to demonstrate an interesting linear algebra proper
 Create the matrix `A` in `R`.
 $$\mathbf{A} = \begin{bmatrix} 1 & -7 \\ 5 & 9 \end{bmatrix}$$
 
+$\textbf{Solution:}$
+```{r}
+(A = matrix(c(1,5,-7,9),nrow=2,ncol=2))
+```
+
 ## Part b
 Compute the product below in `R` and store it in an object `T`.
 $$\mathbf{T} = \mathbf{A}\mathbf{M}.$$
 
+$\textbf{Solution:}$
+```{r}
+M = matrix(c(1,0,0,1),nrow=2,ncol=2)
+T = A %*% M
+(T)
+```
+
 ## Part c
 Create `basis.vector.1` (first column of `T`) and `basis.vector.2` (second column of `T`) in `R`.
+
+$\textbf{Solution:}$
+```{r}
+(basis.vector.1 = T[,1])
+(basis.vector.2 = T[,2])
+```
 
 ## Part d
 Compute the points $p_0$, $p_1$, $p_2$, and $p_3$.
 
+$\textbf{Solution:}$
+```{r}
+(p0 = c(0,0))
+(p1 = basis.vector.1)
+(p2 = basis.vector.1 + basis.vector.2)
+(p3 = basis.vector.2) 
+```
+
 ## Part e
 Copy and paste the code for the unit square. Edit the code to draw the segments that form the boundary based on the points in Part d.
 
+$\textbf{Solution:}$
+```{r}
+#| label: fig-squarev2
+#| fig-cap: "My new parallelogram."
+#| fig-width: 3
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: "scriptsize"
+ggplot() +
+  geom_segment(aes(x = p0[1], xend = p1[1],
+                   y=p0[2], yend = p1[2]))+
+  geom_segment(aes(x = p1[1], xend = p2[1],
+                   y=p1[2], yend = p2[2]))+
+  geom_segment(aes(x = p2[1], xend = p3[1],
+                   y=p2[2], yend = p3[2]))+
+  geom_segment(aes(x = p3[1], xend = p0[1],
+                   y=p3[2], yend = p0[2])) +
+  theme_bw() + 
+  xlim(-20, 20)+
+  ylim(-20, 20)+
+  labs(x = "x", 
+       y = "y")
+```
+
 ## Part f
 Interestingly, the determinant of $\mathbf{A}$ gives us the area of the shape plotted in Part e. Find the determinant of $\mathbf{A}$.
+
+$\textbf{Solution:}$
+```{r}
+(det(A))
+```
 
 # Question 2
 Recomplete Question 1 using a new matrix for $\mathbf{A}$. This matrix is not as well behaved.
@@ -143,21 +200,83 @@ Recomplete Question 1 using a new matrix for $\mathbf{A}$. This matrix is not as
 Create the matrix `A` in `R`.
 $$\mathbf{A} = \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}$$
 
+$\textbf{Solution:}$
+```{r}
+(A = matrix(c(1,2,2,4),nrow=2,ncol=2))
+```
+
 ## Part b
 Compute the product below in `R` and store it in an object `T`.
 $$\mathbf{T} = \mathbf{A}\mathbf{M}.$$
 
+$\textbf{Solution:}$
+```{r}
+M = matrix(c(1,0,0,1),nrow=2,ncol=2)
+(T = A %*% M)
+```
 ## Part c
 Create `basis.vector.1` (first column of `T`) and `basis.vector.2` (second column of `T`) in `R`.
+
+$\textbf{Solution:}$
+```{r}
+(basis.vector.1 = T[,1])
+(basis.vector.2 = 2 * basis.vector.1) #uh oh not full rank
+```
+Me when my matrix is not full rank $\Sadey$ (I'm never gonna get a true inverse)
 
 ## Part d
 Compute the points $p_0$, $p_1$, $p_2$, and $p_3$.
 
+$\textbf{Solution:}$
+```{r}
+(p0 = c(0,0))
+(p1 = basis.vector.1)
+(p2 = basis.vector.1 + basis.vector.2)
+(p3 = basis.vector.2) 
+```
+
 ## Part e
 Copy and paste the code for plotting the unit square. Edit the code to draw the segments that form the boundary based on the points in Part d.
 
+
+
+
+$\textbf{Solution:}$
+```{r}
+#| label: fig-squarev3
+#| fig-cap: "My sad parallelogram."
+#| fig-width: 3
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: "scriptsize"
+ggplot() +
+  geom_segment(aes(x = p0[1], xend = p1[1],
+                   y=p0[2], yend = p1[2]))+
+  geom_point(aes(x = p0[1], y = p0[2]), size = 1) +
+  geom_segment(aes(x = p1[1], xend = p2[1],
+                   y=p1[2], yend = p2[2]))+
+  geom_point(aes(x = p1[1], y = p1[2]), size = 1) +
+  geom_segment(aes(x = p2[1], xend = p3[1],
+                   y=p2[2], yend = p3[2]))+
+  geom_point(aes(x = p2[1], y = p2[2]), size = 1) +
+  geom_segment(aes(x = p3[1], xend = p0[1],
+                   y=p3[2], yend = p0[2])) +
+  geom_point(aes(x = p3[1], y = p3[2]), size = 1) +
+  theme_bw() + 
+  xlim(-10, 10)+
+  ylim(-10, 10)+
+  labs(x = "x", 
+       y = "y")
+```
+
 ## Part f
 Interestingly, the determinant of $\mathbf{A}$ gives us the area of the shape plotted in Part e. Find the determinant of $\mathbf{A}$.
+
+$\textbf{Solution:}$
+```{r}
+(det(A))
+```
 
 # Question 3
 We can conduct a shear transformation that keeps the area of the shape the same but horizontally or vertically slants the object. 
@@ -174,6 +293,59 @@ In both cases, $k \in \mathbb{R}$ is called a shear factor and its sign determin
 Use the following to generate a new shape. Compare the shape and its area to your answer in Question 1.
 $$\mathbf{M}_v = \begin{bmatrix} 1 & k=0.5 \\ 0 & 1 \end{bmatrix} ~~~~~ \textrm{and} ~~~~~
   \mathbf{A}   = \begin{bmatrix} 1 & -7 \\ 5 & 9 \end{bmatrix}$$
+
+$\textbf{Solution:}$
+```{r}
+#initializing my matrices
+Mk = matrix(c(1,0,.5,1),nrow=2,ncol=2)
+A = matrix(c(1,5,-7,9),nrow=2,ncol=2)
+T = Mk %*% A
+
+#it's basis vector time
+basis.vector.1 = T[,1]
+basis.vector.2 = T[,2]
+
+#Grabbing my points
+p0 = c(0,0)
+p1 = basis.vector.1
+p2 = basis.vector.1 + basis.vector.2
+p3 = basis.vector.2
+
+#Let's plot!
+#| label: fig-squarev3
+#| fig-cap: "My sad parallelogram."
+#| fig-width: 3
+#| fig-height: 3
+#| scale: "80%"
+#| fig-align: "center"
+#| size: "scriptsize"
+ggplot() +
+  geom_segment(aes(x = p0[1], xend = p1[1],
+                   y=p0[2], yend = p1[2]))+
+  geom_point(aes(x = p0[1], y = p0[2]), size = 1) +
+  geom_segment(aes(x = p1[1], xend = p2[1],
+                   y=p1[2], yend = p2[2]))+
+  geom_point(aes(x = p1[1], y = p1[2]), size = 1) +
+  geom_segment(aes(x = p2[1], xend = p3[1],
+                   y=p2[2], yend = p3[2]))+
+  geom_point(aes(x = p2[1], y = p2[2]), size = 1) +
+  geom_segment(aes(x = p3[1], xend = p0[1],
+                   y=p3[2], yend = p0[2])) +
+  geom_point(aes(x = p3[1], y = p3[2]), size = 1) +
+  theme_bw() + 
+  xlim(-20, 20)+
+  ylim(-20, 20)+
+  labs(x = "x", 
+       y = "y")
+
+```
+
+The area of the shape (a parallelogram) is the magnitude of the determinant of the matrix
+```{r}
+(det(T))
+```
+
+As expected, since the sheer transformation $M_k$ has determinant $1$ (just like $I_2$) and because our determinant function is a homomorphism, $\text{det}(AB)=\text{det}A*\text{det}B$. Thus the determinant is the same as in question $1$. 
 
 ## Part b
 Use the following to generate a new shape. Compare the shape and its area to your answer in Questions 1 and the vertical shear transform in part (a).
