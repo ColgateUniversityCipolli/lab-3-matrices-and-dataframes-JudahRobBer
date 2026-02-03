@@ -214,7 +214,9 @@ $\textbf{Solution:}$
 M = matrix(c(1,0,0,1),nrow=2,ncol=2)
 (T = A %*% M)
 ```
+
 ## Part c
+
 Create `basis.vector.1` (first column of `T`) and `basis.vector.2` (second column of `T`) in `R`.
 
 $\textbf{Solution:}$
@@ -222,6 +224,7 @@ $\textbf{Solution:}$
 (basis.vector.1 = T[,1])
 (basis.vector.2 = 2 * basis.vector.1) #uh oh not full rank
 ```
+
 Me when my matrix is not full rank $\Sadey$ (I'm never gonna get a true inverse)
 
 ## Part d
@@ -485,10 +488,8 @@ $\textbf{Solution:}$
 ```{r}
 x = c(0,0,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1)
 y = c(0,20,0,20,2,2,4,4,6,6,8,8,10,10,12,12,14,14,16,16,18,18)
-#group = c(1,1,2,2,3,3,4,4,5,5,5,1,1,2,2,3,3,4,4,5,5,5)
 group = c(1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11)
 ladder = data.frame(x=x,y=y,group=group)
-(ladder)
 ```
 
 ## Part b
