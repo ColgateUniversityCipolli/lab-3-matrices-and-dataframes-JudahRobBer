@@ -460,6 +460,7 @@ This matrix no longer has determinant one (because the product of the off-diagon
 ```{r}
 det(T)
 ```
+
 # Question 4
 
 ## Part a
@@ -479,11 +480,21 @@ Create a data frame `ladder` with the following data. Note your data frame shoul
 | 1    | 6    |    5 | 0    | 18   |    5 |
 | 0    | 8    |    5 | 1    | 18   |    5 |
 
+$\textbf{Solution:}$
+
+```{r}
+x = c(0,0,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1)
+y = c(0,20,0,20,2,2,4,4,6,6,8,8,10,10,12,12,14,14,16,16,18,18)
+#group = c(1,1,2,2,3,3,4,4,5,5,5,1,1,2,2,3,3,4,4,5,5,5)
+group = c(1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11)
+ladder = data.frame(x=x,y=y,group=group)
+(ladder)
+```
+
 ## Part b
 Remove `#|eval: false` in the code below. The result should look like a ladder and a very rectangular house if part a is correct.
 
 ```{r}
-#| eval: false
 #| label: fig-ladder
 #| fig-cap: "A ladder."
 #| fig-width: 3
@@ -514,14 +525,29 @@ Recall,
 $$\mathbf{M}_h = \begin{bmatrix} 1 & 0 \\ k & 1 \end{bmatrix}$$
 and use $k=0.5.$
 
+$\textbf{solution}$
+
+```{r}
+M = matrix(c(1,.5,0,1),nrow=2,ncol=2)
+ladderNoGroups = ladder[,c("x","y")]
+A = as.matrix(ladderNoGroups,nrow=22,ncol=2)
+
+T = A %*% M
+(T)
+```
+
 ## Part d
 Create a data frame `leaning.ladder` with the `x` and `y` equal to the first and second column of $\mathbf{T}$, respectively, and the same values of `group` from `ladder`. 
+
+$\textbf{Solution:}$
+```{r}
+leaning.ladder = data.frame(x=T[,1],y=T[,2],group=ladder[,c("group")])
+```
 
 ## Part e
 Remove `eval: false` in the code below. The result should look like a ladder and a very rectangular house if part a is correct. The new leaning ladder should look like it is leaning on the house.
 
 ```{r}
-#| eval: false
 #| label: fig-ladder2
 #| fig-cap: "A ladder and a leaning ladder."
 #| fig-width: 3
